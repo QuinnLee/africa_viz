@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as constants from '../constants';
+import _ from 'lodash';
 
 function requestData(dataType) {
   return {
@@ -8,25 +9,33 @@ function requestData(dataType) {
   }
 }
 
+function receiveMap(dataType, data) {
+  return {
+    type: constants.RECEIVE_MAP,
+    dataType,
+    data: data
+  }
+}
+
 function receiveData(dataType, data) {
   return {
     type: constants.RECEIVE_DATA,
     dataType,
-    data: data
+    data
   }
 }
 
 export function fetchData(url, dataType) {
   return function(dispatch) {
     dispatch(requestData(dataType));
-    return axios({
-      url: url,
-      timeout: 20000,
-      method: 'get',
-      responseType: 'json'
-    })
+    return axios.get(url)
     .then(function(response) {
-      dispatch(receiveData(dataType, response.data));
+      let data = response.data;
+      if(dataType == 'data') {
+        dispatch(receiveData(dataType, data));
+      } else if (dataType === 'map') {
+        dispatch(receiveMap(dataType, data));
+      }
     })
   }
 }

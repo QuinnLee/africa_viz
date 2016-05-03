@@ -9,8 +9,8 @@
 import { combineReducers } from 'redux';
 import dataReducer from './dataReducer';
 /* Populated by react-webpack-redux:reducer */
-const reducers = {
-  dataReducer
-};
+
+
+const reducers = { dataReducer };
 
 module.exports = combineReducers(reducers);

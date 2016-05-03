@@ -3,22 +3,27 @@ import React, {
   PropTypes
 } from 'react';
 
-import { fetchMapData } from '../actions/data';
+import { fetchData } from '../actions/data';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Navigation from '../components/Navigation';
+import AfricaMap from './AfricaMap';
+import TreeMap from './TreeMap';
+import * as constants from '../constants';
 
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
   componentDidMount() {
-    const { fetchMapData } = this.props.actions;
+    const { fetchData } = this.props.actions;
+    fetchData(constants.MAP_URL, 'map');
+    fetchData(constants.DATA_URL, 'data');
   }
   render() {
-    let { children } = this.props;
     return (
       <main>
-        <Navigation/>
-        {children}
+        <Navigation {...this.props}/>
+        <AfricaMap {...this.props}/>
+        <TreeMap {...this.props}/>
       </main>
     );
   }
@@ -26,17 +31,19 @@ class App extends Component {
 
 App.propTypes = {
   actions: PropTypes.object.isRequired,
-  children: PropTypes.node
+  children: PropTypes.node,
+  map: PropTypes.array
 };
 
 
 function mapStateToProps(state){
   return {
+    map: state.dataReducer.map
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  const actions = {fetchMapData};
+  const actions = { fetchData };
   const actionMap = { actions: bindActionCreators(actions, dispatch) };
   return actionMap;
 }

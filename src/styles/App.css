@@ -1,9 +1,4 @@
 /* Base Application Styles */
-body {
-  color: #fff;
-  background: #222;
-}
-
 .index img {
   margin: 40px auto;
   border-radius: 4px;
@@ -19,3 +14,38 @@ body {
   border-width: 1px 0;
   background: #666;
 }
+
+.map-country {
+  cursor: pointer;
+  stroke: rgb(170, 170, 170);
+}
+
+.map-country__deselected {
+  fill-opacity: 0.2;
+  stroke-opacity: 0.8;
+  cursor: pointer;
+  stroke: rgb(170, 170, 170);
+}
+
+.map-country__selected {
+  cursor: pointer;
+  fill-opacity: 1;
+  stroke: rgb(170, 170, 170);
+}
+
+.map-country-text {
+  cursor: pointer;
+  text-anchor: middle;
+}
+
+.treemap {
+  position: relative;
+}
+
+.treemap--rect {
+  fill-opacity: 0.5;
+  fill: rgb(170, 170, 170);
+  stroke: rgb(170, 170, 170);
+}
+
+
