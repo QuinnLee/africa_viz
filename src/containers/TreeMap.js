@@ -3,11 +3,9 @@ require('styles/App.css');
 
 import React from 'react';
 import d3 from 'd3';
-import _ from 'lodash';
+import { get, chain, sumBy } from 'lodash';
 import { hashHistory } from 'react-router';
 import { connect } from 'react-redux';
-
-const { get, chain, sumBy } = _;
 
 let d3treemap = (tree, country, onMouseOver) => {
   let maxArea = chain(tree)
@@ -24,7 +22,7 @@ let d3treemap = (tree, country, onMouseOver) => {
       overflow: 'hidden'
     };
 
-    let p = maxArea/50 < node.area ? <p style={pStyle}> {node.key} </p> : null;
+    let p = maxArea/100 < node.area ? <p style={pStyle}> {node.key} </p> : null;
 
     return(
       <g key={node.key} transform={t} onMouseOver={() => { onMouseOver(node.key);}}>
@@ -56,7 +54,7 @@ class TreeMap extends React.Component {
 
     if(hasData) {
       return (
-        <svg width={500} height={500} onMouseOut={() => { this.onMouseOut.call(this, country) }}>
+        <svg width={400} height={400} onMouseOut={() => { this.onMouseOut.call(this, country) }}>
           {d3treemap(data, country, this.onMouseOver.bind(this))}
         </svg>
        );
@@ -104,7 +102,7 @@ function mapStateToProps(state, props){
 
   var treemap = d3.layout.treemap()
     .children((d) => d)
-    .size([500, 500])
+    .size([400, 400])
     .sticky(true)
     .sort((a,b) => {
       return get(a, `values.${variable}`) - get(b, `values.${variable}`);

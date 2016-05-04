@@ -1,6 +1,5 @@
 import axios from 'axios';
 import * as constants from '../constants';
-import _ from 'lodash';
 
 function requestData(dataType) {
   return {

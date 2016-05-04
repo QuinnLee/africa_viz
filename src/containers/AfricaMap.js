@@ -10,14 +10,14 @@ import d3 from 'd3';
 const { get } = _;
 
 let africa = (data, country, product, onClick) => {
-  let side = 50;
+  let side = 40;
   let className = country ? 'map-country__deselected' : 'map-country';
   return data.map((d) => {
     let countryClass = d.name === country ? 'map-country__selected ' : className;
     return (
       <g key={d.name} transform={`translate(${d.x*side},${d.y*side})`} onClick={() => { onClick(d.name);}}>
         <rect width={side} height={side} className={countryClass} fill={d.color} vector-effect="non-scaling-stroke"/>
-        <text x="25" y="30" className="map-country-text">{d['3digit']}</text>
+        <text x="20" y="25" className="map-country-text">{d['3digit']}</text>
       </g>
     );
   });
@@ -42,13 +42,12 @@ class AfricaMap extends React.Component {
       map,
       hasData,
       product,
-      country,
-      variable
+      country
     } = this.props;
 
     if(!hasData) { return (<div> loading </div>) }
     return (
-      <svg width={512} height={600}>
+      <svg width={400} height={500}>
         <g transform='translate(8,8)'>
           {africa(map, country, product, this.onClick.bind(this))}
         </g>
@@ -82,12 +81,11 @@ let tradeValue = (data, variable) => {
 }
 
 let colorScale = (data = []) => {
-  let min = d3.min(data);
   let max = d3.max(data);
   let median = d3.median(data)
 
   return d3.scale.linear()
-    .domain([min, median, max])
+    .domain([0, median, max])
     .range(['#deebf7', '#6baed6', '#08519c']);
 }
 
@@ -123,7 +121,7 @@ function mapStateToProps(state, props){
     hasData,
     country,
     variable,
-    product,
+    product
   }
 }
 

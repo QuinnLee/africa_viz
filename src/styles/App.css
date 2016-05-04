@@ -1,4 +1,53 @@
 /* Base Application Styles */
+.content {
+  max-width: 75em;
+  margin: 0 auto;
+}
+.Grid {
+  display: flex;
+}
+
+.Grid-cell {
+  flex: 1;
+}
+
+/* With gutters */
+.Grid--gutters {
+  margin: -1em 0 0 -1em;
+}
+.Grid--gutters > .Grid-cell {
+  padding: 1em 0 0 1em;
+}
+
+  /* Alignment per row */
+.Grid--top {
+  align-items: flex-start;
+}
+.Grid--bottom {
+  align-items: flex-end;
+}
+.Grid--center {
+  align-items: center;
+}
+
+/* Alignment per cell */
+.Grid-cell--top {
+  align-self: flex-start;
+}
+.Grid-cell--bottom {
+  align-self: flex-end;
+}
+.Grid-cell--center {
+  align-self: center;
+}
+
+.Grid--visualizations {
+  justify-content: space-around;
+}
+.header {
+  margin: 1em 0;
+}
+
 .index img {
   margin: 40px auto;
   border-radius: 4px;
@@ -48,4 +97,20 @@
   stroke: rgb(170, 170, 170);
 }
 
+.legend {
+  padding: 1.5em 0 0 1.5em;
+  width: 150px;
+  flex-direction: column-reverse;
+}
 
+p.key-text {
+  margin: 0;
+}
+
+li.key {
+  border-left-width: 20px;
+  border-left-style: solid;
+  padding-top: 5em;
+  font-size: .75em;
+  width: 10em;
+}
