@@ -86,7 +86,7 @@ let colorScale = (data = []) => {
 
   return d3.scale.linear()
     .domain([0, median, max])
-    .range(['#deebf7', '#6baed6', '#08519c']);
+    .range(['#FFF', '#6baed6', '#08519c']);
 }
 
 function mapStateToProps(state, props){
