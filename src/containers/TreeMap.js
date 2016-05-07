@@ -38,11 +38,13 @@ let d3treemap = (tree, country, onMouseOver) => {
 class TreeMap extends React.Component {
   onMouseOver(product) {
     let { country, variable } = this.props;
-    hashHistory.replace({ pathname: '/', query: { variable, country, product }});
+    let currentPath = this.props.location.pathname;
+    hashHistory.replace({ pathname: currentPath, query: { variable, country, product }});
   }
   onMouseOut(country) {
     let { variable } = this.props;
-    hashHistory.replace({ pathname: '/', query: { variable, country }});
+    let currentPath = this.props.location.pathname;
+    hashHistory.replace({ pathname: currentPath, query: { variable, country }});
   }
   render() {
     let {
@@ -54,9 +56,11 @@ class TreeMap extends React.Component {
 
     if(hasData) {
       return (
-        <svg width={400} height={400} onMouseOut={() => { this.onMouseOut.call(this, country) }}>
-          {d3treemap(data, country, this.onMouseOver.bind(this))}
-        </svg>
+        <div className='Grid Grid-cell-center__all'>
+          <svg width={400} height={400} onMouseOut={() => { this.onMouseOut.call(this, country) }}>
+            {d3treemap(data, country, this.onMouseOver.bind(this))}
+          </svg>
+        </div>
        );
     } else  {
       return ( <div> loading </div>);

@@ -3,7 +3,7 @@ require('normalize.css');
 import React from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
-import { hashHistory } from 'react-router'
+import { Link, hashHistory } from 'react-router'
 import { get } from 'lodash';
 
 class Navigation extends React.Component {
@@ -15,26 +15,37 @@ class Navigation extends React.Component {
     } = this.props;
 
     let importLink = () => {
-      hashHistory.replace({ pathname:'/', query: { product, country, variable: 'import_value'}});
+      let currentPath = this.props.location.pathname;
+      hashHistory.replace({ pathname:currentPath, query: { product, country, variable: 'import_value'}});
     };
 
     let exportLink = () => {
-      hashHistory.replace({ pathname:'/', query: { product, country, variable: 'export_value'}});
+      let currentPath = this.props.location.pathname;
+      hashHistory.replace({ pathname: currentPath, query: { product, country, variable: 'export_value'}});
     };
 
     let importClass = classNames('Grid-cell', { active: variable === 'import_value'});
     let exportClass = classNames('Grid-cell', { active: variable != 'import_value'});
 
     return (
-      <ul className="Grid">
+      <ul className="Grid Grid--Nav">
         <li className={exportClass}>
-          <a className='btn' onClick={exportLink}>Exports</a>
+          <a className='btn' onClick={exportLink.bind(this)}>Exports</a>
         </li>
         <li className={importClass}>
-          <a className='btn' onClick={importLink}>Imports</a>
+          <a className='btn' onClick={importLink.bind(this)}>Imports</a>
         </li>
         <li>
-          <a className='btn' onClick={() => hashHistory.replace('/') }>Clear</a>
+          <Link to='/' className='btn'> Index </Link>
+        </li>
+        <li>
+          <Link to='/africa' className='btn'> Africa </Link>
+        </li>
+        <li>
+          <Link to='/treemap' className='btn'> Treemap </Link>
+        </li>
+        <li>
+          <Link to='/visualization' className='btn'>All</Link>
         </li>
       </ul>
     )

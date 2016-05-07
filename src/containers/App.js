@@ -2,36 +2,16 @@ import React, {
   Component
 } from 'react';
 
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
 import { fetchData } from '../actions/data';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import Header from '../components/Header';
 import Navigation from '../components/Navigation';
-import Legend from '../components/Legend';
 
-import AfricaMap from './AfricaMap';
-import TreeMap from './TreeMap';
 import * as constants from '../constants';
-import numbro from 'numbro';
-
-numbro.language('us-vis', {
-  delimiters: {
-    thousands: ', ',
-    decimal: '.'
-  },
-  abbreviations: {
-    thousand: 'Thousand',
-    million: 'Million',
-    billion: 'Billion',
-  },
-  currency: {
-    symbol: '$',
-    position: 'postfix'
-  },
-});
-
-numbro.culture('us-vis');
 
 /* Populated by react-webpack-redux:reducer */
 class App extends Component {
@@ -42,7 +22,7 @@ class App extends Component {
   }
   render() {
     return (
-      <body className="content">
+      <div className="content">
         <header className="header">
           <div className='Grid Grid--center'>
             <Header {...this.props}/>
@@ -53,16 +33,19 @@ class App extends Component {
             </div>
           </div>
         </header>
-        <main className="Grid Grid--center Grid--visualizations">
-          <Legend {...this.props}/>
-          <div className="Grid-cell--visualizations">
-            <AfricaMap  {...this.props}/>
-          </div>
-          <div className="Grid-cell--visualizations">
-            <TreeMap {...this.props}/>
-          </div>
-        </main>
-      </body>
+        <div className="Grid Grid--center Grid--visualizations">
+            <div className="Grid-cell--visualizations">
+              <ReactCSSTransitionGroup component="div" transitionName="example" transitionEnterTimeout={500} transitionLeaveTimeout={500} >
+                {this.props.left}
+              </ReactCSSTransitionGroup>
+            </div>
+            <div className="Grid-cell--visualizations">
+              <ReactCSSTransitionGroup component="div" transitionName="example" transitionEnterTimeout={500} transitionLeaveTimeout={500} >
+                {this.props.right}
+              </ReactCSSTransitionGroup>
+            </div>
+        </div>
+      </div>
     );
   }
 }

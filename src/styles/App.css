@@ -44,6 +44,22 @@
 .Grid--visualizations {
   justify-content: space-around;
 }
+
+.Grid-cell-center__all {
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.Grid-cell--visualizations {
+  height: 550px;
+  width: 500px;
+}
+
+.Grid--Nav {
+  padding: 0;
+}
+
 .header {
   margin: 1em 0;
 }
@@ -99,7 +115,7 @@
 
 .legend {
   padding: 1.5em 0 0 1.5em;
-  width: 150px;
+  width: 100px;
   flex-direction: column-reverse;
 }
 
@@ -114,3 +130,26 @@ li.key {
   font-size: .75em;
   width: 10em;
 }
+
+.question {
+  height: 3em;
+}
+
+.example-enter {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+}
+
+.example-leave {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0;
+}
+

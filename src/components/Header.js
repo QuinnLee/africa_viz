@@ -7,7 +7,7 @@ import React, {
 
 import { connect } from 'react-redux';
 import { get, chain } from 'lodash';
-//
+import numbro from 'numbro';
 
 class Header extends Component {
   render() {
@@ -31,16 +31,16 @@ class Header extends Component {
     let header = 'In 2014, what was trade between Africa and China?'
 
     if(country && product) {
-      header = `${country} ${get(verbs, variable)} ${value} of ${product} ${get(destination, variable)} China`;
+      header = `${country} ${get(verbs, variable)} ${numbro(value).format('$ 0.000 a')} of ${product} ${get(destination, variable)} China`;
     } else if(country && !product) {
-      header = `${country} ${get(verbs, variable)} ${value} ${get(destination, variable)} China`;
+      header = `${country} ${get(verbs, variable)} ${numbro(value).format('$ 0.000 a')} ${get(destination, variable)} China`;
     } else if(!country && product) {
-      header = `Africa ${get(verbs, variable)} ${value} of ${product} ${get(destination, variable)} China`;
+      header = `Africa ${get(verbs, variable)} ${numbro(value).format('$ 0.000 a')} ${get(destination, variable)} of ${product} ${get(destination, variable)} China`;
     }
 
    return (
      <div>
-       <h1>
+       <h1 className='question'>
         {header}
        </h1>
      </div>

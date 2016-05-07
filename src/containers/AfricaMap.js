@@ -7,6 +7,8 @@ import { hashHistory } from 'react-router'
 import _ from 'lodash';
 import d3 from 'd3';
 
+import Legend from '../components/Legend';
+
 const { get } = _;
 
 let africa = (data, country, product, onClick) => {
@@ -31,10 +33,12 @@ class AfricaMap extends React.Component {
       product
     } = this.props;
 
+    let currentPath = this.props.location.pathname;
+
     if(country === currentCountry) {
-      hashHistory.replace({ pathname: '/', query: { variable, product }});
+      hashHistory.replace({ pathname: currentPath, query: { variable, product }});
     } else {
-      hashHistory.replace({ pathname: '/', query: { country: currentCountry, variable, product }});
+      hashHistory.replace({ pathname: currentPath, query: { country: currentCountry, variable, product }});
     }
   }
   render() {
@@ -46,12 +50,16 @@ class AfricaMap extends React.Component {
     } = this.props;
 
     if(!hasData) { return (<div> loading </div>) }
+
     return (
-      <svg width={400} height={500}>
-        <g transform='translate(8,8)'>
-          {africa(map, country, product, this.onClick.bind(this))}
-        </g>
-      </svg>
+      <div className="Grid Grid-cell-center__all">
+        <Legend {...this.props}/>
+        <svg width={400} height={500}>
+          <g transform='translate(8,8)'>
+            {africa(map, country, product, this.onClick.bind(this))}
+          </g>
+        </svg>
+      </div>
     );
   }
 }

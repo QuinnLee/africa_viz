@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 
 class Intro extends Component {
   render() {
-     return ( <div> Intro </div>)
+     return ( <div> THIS IS SPARTA</div>)
   }
 }
 
