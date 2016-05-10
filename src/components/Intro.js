@@ -8,7 +8,11 @@ import { connect } from 'react-redux';
 
 class Intro extends Component {
   render() {
-     return ( <div> THIS IS SPARTA</div>)
+     return (
+      <h1 className='intro'>
+        THIS IS SPARTA
+      </h1>
+    )
   }
 }
 

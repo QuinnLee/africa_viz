@@ -19,10 +19,15 @@ let d3treemap = (tree, country, onMouseOver) => {
     let pStyle = {
       maxWidth: `${node.dx}px`,
       maxHeight: `${node.dy}px`,
-      overflow: 'hidden'
+      padding: 5,
+      margin: 0,
+      fontSize: 20,
+      textOverflow: 'ellipsis-word',
+      overflow: 'hidden',
+      whiteSpace: 'nowrap'
     };
 
-    let p = maxArea/100 < node.area ? <p style={pStyle}> {node.key} </p> : null;
+    let p = maxArea/300 < node.area ? <p style={pStyle}> {node.key} </p> : null;
 
     return(
       <g key={node.key} transform={t} onMouseOver={() => { onMouseOver(node.key);}}>
