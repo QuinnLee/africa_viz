@@ -4,26 +4,14 @@ require('styles/App.css');
 import React from 'react';
 import { connect } from 'react-redux';
 import { hashHistory } from 'react-router'
-import _ from 'lodash';
-import d3 from 'd3';
+import { get, values } from 'lodash';
+
+import { dataFilter, colorScale, tradeValue } from '../helpers/dataHelpers';
+import { africa } from '../helpers/visualizationHelpers';
 
 import Legend from '../components/Legend';
 
-const { get } = _;
 
-let africa = (data, country, product, onClick) => {
-  let side = 40;
-  let className = country ? 'map-country__deselected' : 'map-country';
-  return data.map((d) => {
-    let countryClass = d.name === country ? 'map-country__selected ' : className;
-    return (
-      <g key={d.name} transform={`translate(${d.x*side},${d.y*side})`} onClick={() => { onClick(d.name);}}>
-        <rect width={side} height={side} className={countryClass} fill={d.color} vector-effect="non-scaling-stroke"/>
-        <text x="20" y="25" className="map-country-text">{d['3digit']}</text>
-      </g>
-    );
-  });
-};
 
 class AfricaMap extends React.Component {
   onClick(currentCountry) {
@@ -64,59 +52,27 @@ class AfricaMap extends React.Component {
   }
 }
 
-let filteredData = (product, data) => {
-  let chain = _.chain(data);
-  if(product) {
-    chain = chain.filter((d) => {
-      return get(d, 'product_name') === product;
-    });
-  }
-  return chain.value();
-}
-
-let tradeValue = (data, variable) => {
-  return  _.reduce(data, (memo, datum) => {
-    let id = get(datum, '3digit');
-
-    if(_.isUndefined(memo[id])) {
-      memo[id] = get(datum, variable);
-    } else {
-      memo[id] += get(datum, variable);
-    }
-
-    return memo;
-  }, {})
-}
-
-let colorScale = (data = []) => {
-  let max = d3.max(data);
-  let median = d3.median(data)
-
-  return d3.scale.linear()
-    .domain([0, median, max])
-    .range(['#FFF', '#6baed6', '#08519c']);
-}
-
 function mapStateToProps(state, props){
   let {
     tradeData,
     hasData,
-    map
+    map: jsonMap
   } = state.dataReducer;
 
   let {
     country,
     variable,
-    product
+    product,
+    year
   } = props.location.query;
 
   variable =  variable === 'import_value' ? 'import_value' : 'export_value';
 
   if(hasData) {
-    let data = filteredData(product, tradeData);
+    let data = dataFilter(null, product, year, tradeData);
     let trade = tradeValue(data, variable);
-    let colors = colorScale(_.values(trade));
-     map = _.map(map, (country) => {
+    let colors = colorScale(values(trade));
+    jsonMap = jsonMap.map((country) => {
       let id = get(country, '3digit');
       let value = get(trade, id) || 0;
       let color = colors(value);
@@ -125,7 +81,7 @@ function mapStateToProps(state, props){
   }
 
   return {
-    map,
+    map: jsonMap,
     hasData,
     country,
     variable,

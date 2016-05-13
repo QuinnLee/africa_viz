@@ -21,12 +21,12 @@ numbro.culture('us-vis', {
   abbreviations: {
     thousand: 'Thousand',
     million: 'Million',
-    billion: 'Billion',
+    billion: 'Billion'
   },
   currency: {
     symbol: '$',
     position: 'postfix'
-  },
+  }
 });
 
 numbro.culture('us-vis');
@@ -39,8 +39,7 @@ render(
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route path='/' component={App}>
-        <IndexRoute components={{left: Intro, right:Intro}}/>
-        <Route path='africa' components={{left: AfricaMap, right:Intro}}/>
+        <IndexRoute components={{left: AfricaMap, right:Intro}}/>
         <Route path='treemap' components={{left: Intro, right:TreeMap}}/>
         <Route path='visualization' components={{left: AfricaMap, right: TreeMap}}/>
       </Route>
@@ -48,3 +47,4 @@ render(
   </Provider>,
   document.getElementById('app')
 );
+

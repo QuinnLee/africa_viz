@@ -4,7 +4,6 @@ import React from 'react';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router'
-import { get } from 'lodash';
 
 class Navigation extends React.Component {
   render() {
@@ -39,9 +38,6 @@ class Navigation extends React.Component {
           <Link to='/' className='btn'> Index </Link>
         </li>
         <li>
-          <Link to='/africa' className='btn'> Africa </Link>
-        </li>
-        <li>
           <Link to='/treemap' className='btn'> Treemap </Link>
         </li>
         <li>
@@ -55,21 +51,6 @@ class Navigation extends React.Component {
 Navigation.defaultProps = {
 };
 
-let dataFilter = (country,product,  data) => {
-  let chain = _.chain(data);
-  if(country) {
-    chain = chain.filter((d) => {
-      return get(d, 'country_name') === country;
-    });
-  }
-  if(product) {
-    chain = chain.filter((d) => {
-      return get(d, 'product_name') === product;
-    });
-  }
-  return chain.value();
-}
-
 function mapStateToProps(state, props){
   let {
     country,
@@ -77,12 +58,7 @@ function mapStateToProps(state, props){
     variable
   } = props.location.query;
 
-  let { tradeData } = state.dataReducer;
-
-  let data = dataFilter(country, product,  tradeData);
-
   return {
-    data,
     country,
     product,
     variable

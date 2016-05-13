@@ -2,43 +2,10 @@ require('normalize.css');
 require('styles/App.css');
 
 import React from 'react';
-import d3 from 'd3';
-import { get, chain, sumBy } from 'lodash';
 import { hashHistory } from 'react-router';
 import { connect } from 'react-redux';
-
-let d3treemap = (tree, country, onMouseOver) => {
-  let maxArea = chain(tree)
-    .first()
-    .get('area')
-    .value();
-
-  return tree.map((node, i) => {
-    let t =`translate(${node.x},${node.y})`;
-
-    let pStyle = {
-      maxWidth: `${node.dx}px`,
-      maxHeight: `${node.dy}px`,
-      padding: 5,
-      margin: 0,
-      fontSize: 20,
-      textOverflow: 'ellipsis-word',
-      overflow: 'hidden',
-      whiteSpace: 'nowrap'
-    };
-
-    let p = maxArea/300 < node.area ? <p style={pStyle}> {node.key} </p> : null;
-
-    return(
-      <g key={node.key} transform={t} onMouseOver={() => { onMouseOver(node.key);}}>
-        <rect className="treemap--rect" width={node.dx} height={node.dy} vector-effect="non-scaling-stroke"/>
-        <foreignObject width={node.dx} height={node.dy}>
-          {p}
-        </foreignObject>
-      </g>
-    );
-  });
-}
+import { dataFilter, createTreeData, createTreeMap  } from '../helpers/dataHelpers';
+import { d3treemap } from '../helpers/visualizationHelpers';
 
 class TreeMap extends React.Component {
   onMouseOver(product) {
@@ -55,8 +22,7 @@ class TreeMap extends React.Component {
     let {
       hasData,
       data,
-      country,
-      variable,
+      country
     } = this.props;
 
     if(hasData) {
@@ -73,55 +39,28 @@ class TreeMap extends React.Component {
   }
 }
 
-let dataFilter = (country, data) => {
-  let chain = _.chain(data);
-  if(country) {
-    chain = chain.filter((d) => {
-      return get(d, 'country_name') === country;
-    });
-  }
-  return chain.value();
-}
-
 function mapStateToProps(state, props){
   let {
     tradeData,
-    hasData,
+    hasData
   } = state.dataReducer
 
   let {
     country,
-    product,
+    year,
     variable
   } = props.location.query;
 
   variable =  variable === 'import_value' ? 'import_value' : 'export_value';
 
-  let filteredData = dataFilter(country, tradeData);
+  let filteredData = dataFilter(country, null, year, tradeData);
 
-  let treeData = d3.nest()
-    .key((d) => { return get(d, 'product_name') })
-    .rollup((leaves) => {
-      return {
-        import_value: sumBy(leaves, 'import_value'),
-        export_value: sumBy(leaves, 'export_value'),
-     };
-    })
-    .entries(filteredData);
-
-  var treemap = d3.layout.treemap()
-    .children((d) => d)
-    .size([400, 400])
-    .sticky(true)
-    .sort((a,b) => {
-      return get(a, `values.${variable}`) - get(b, `values.${variable}`);
-    })
-    .value((d) => { return get(d, `values.${variable}`); });
+  let treeData = createTreeData(filteredData);
 
   return {
     hasData,
     variable,
-    data: treemap(treeData),
+    data: createTreeMap(variable, treeData),
     country
   }
 }
