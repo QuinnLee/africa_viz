@@ -9,7 +9,7 @@ import thunk from 'redux-thunk'
 import App from './containers/App';
 import AfricaMap from './containers/AfricaMap';
 import TreeMap from './containers/TreeMap';
-import Intro from './components/Intro';
+import LineChart from './containers/LineChart';
 
 import numbro from 'numbro';
 
@@ -19,9 +19,9 @@ numbro.culture('us-vis', {
     decimal: '.'
   },
   abbreviations: {
-    thousand: 'Thousand',
-    million: 'Million',
-    billion: 'Billion'
+    thousand: 'thousand',
+    million: 'million',
+    billion: 'billion'
   },
   currency: {
     symbol: '$',
@@ -39,8 +39,8 @@ render(
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route path='/' component={App}>
-        <IndexRoute components={{left: AfricaMap, right:Intro}}/>
-        <Route path='treemap' components={{left: Intro, right:TreeMap}}/>
+        <IndexRoute components={{left: AfricaMap, right: LineChart}}/>
+        <Route path='treemap' components={{left: LineChart, right:TreeMap}}/>
         <Route path='visualization' components={{left: AfricaMap, right: TreeMap}}/>
       </Route>
     </Router>

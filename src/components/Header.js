@@ -33,11 +33,11 @@ class Header extends Component {
     let header = `In ${year}, what was trade between Africa and China?`
 
     if(country && product) {
-      header = `${country} ${get(verbs, variable)} ${numbro(value).format('$ 0.00 a')} of ${product} ${get(destination, variable)} China`;
+      header = `In ${year}, ${country} ${get(verbs, variable)} ${numbro(value).format('$ 0.00 a')} worth of ${product} ${get(destination, variable)} China`;
     } else if(country && !product) {
-      header = `${country} ${get(verbs, variable)} ${numbro(value).format('$ 0.00 a')} ${get(destination, variable)} China`;
+      header = `In ${year}, ${country} ${get(verbs, variable)} ${numbro(value).format('$ 0.00 a')} ${get(destination, variable)} China`;
     } else if(!country && product) {
-      header = `Africa ${get(verbs, variable)} ${numbro(value).format('$ 0.00 a')} ${get(destination, variable)} of ${product} ${get(destination, variable)} China`;
+      header = `In ${year}, Africa ${get(verbs, variable)} ${numbro(value).format('$ 0.00 a')} ${get(destination, variable)} of ${product} ${get(destination, variable)} China`;
     }
 
    return (
@@ -49,8 +49,6 @@ class Header extends Component {
     );
   }
 }
-
-
 
 function mapStateToProps(state, props){
   let {
@@ -68,8 +66,7 @@ function mapStateToProps(state, props){
   let data = dataFilter(country, product, year, tradeData);
 
   variable =  variable === 'import_value' ? 'import_value' : 'export_value';
-
-  year = ! year ? 2014 : year;
+  year =  year ? year: 2014 ;
 
   let value = sumBy(data, (d) => { return get(d, variable);});
 

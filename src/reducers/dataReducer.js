@@ -1,32 +1,29 @@
-import _ from 'lodash';
 import * as constants from '../constants';
+import { flattenDeep } from 'lodash';
 
 var initalState = {
   map: [],
   tradeData: [],
+  groupByProduct: [],
+  groupByCountry: [],
   hasData: false,
-  country: null,
-  product: null
+  hasTimeseries: false
 }
 
 export default function(state = initalState, action) {
   switch(action.type) {
-    case 'RECEIVE_MAP':
+    case constants.RECEIVE_MAP:
       var newState = Object.assign({}, state)
       newState.map = action.data;
       return newState;
-    case 'RECEIVE_DATA':
+    case 'RECEIVE_TIMESERIES':
       var newState = Object.assign({}, state)
       newState.hasData = true;
-      newState.tradeData = action.data;
+      newState.tradeData = state
+        .tradeData
+        .concat(flattenDeep(action.data));
+
       return newState;
-    case constants.HOVER_COUNTRY:
-      var newState = Object.assign({}, state)
-      newState.country = action.country
-      newState.filteredTradeData = _.filter(state.tradeData, { 'country_name': action.country });
-      return newState;
-    case constants.HOVER_PRODUCT:
-      return state;
     default:
       return state;
   }

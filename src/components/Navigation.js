@@ -2,7 +2,6 @@ require('normalize.css');
 
 import React from 'react';
 import classNames from 'classnames';
-import { connect } from 'react-redux';
 import { Link, hashHistory } from 'react-router'
 
 class Navigation extends React.Component {
@@ -10,17 +9,20 @@ class Navigation extends React.Component {
     let {
       country,
       product,
-      variable
-    } = this.props;
+      variable,
+      year
+    } = this.props.location.query;
+
+    let currentPath = this.props.location.pathname;
+    let productQuery = Object.assign({}, this.props.location.query);
+    delete productQuery.country;
 
     let importLink = () => {
-      let currentPath = this.props.location.pathname;
-      hashHistory.replace({ pathname:currentPath, query: { product, country, variable: 'import_value'}});
+      hashHistory.replace({ pathname:currentPath, query: { product, country, year, variable: 'import_value'}});
     };
 
     let exportLink = () => {
-      let currentPath = this.props.location.pathname;
-      hashHistory.replace({ pathname: currentPath, query: { product, country, variable: 'export_value'}});
+      hashHistory.replace({ pathname: currentPath, query: { product, country, year, variable: 'export_value'}});
     };
 
     let importClass = classNames('Grid-cell', { active: variable === 'import_value'});
@@ -35,13 +37,19 @@ class Navigation extends React.Component {
           <a className='btn' onClick={importLink.bind(this)}>Imports</a>
         </li>
         <li>
-          <Link to='/' className='btn'> Index </Link>
+          <Link to={{pathname: '/', query: this.props.location.query}} className='btn'>
+            Africa
+          </Link>
         </li>
         <li>
-          <Link to='/treemap' className='btn'> Treemap </Link>
+          <Link to={{pathname: '/treemap', query: productQuery }} className='btn'>
+            Products
+          </Link>
         </li>
         <li>
-          <Link to='/visualization' className='btn'>All</Link>
+          <Link to={{pathname: '/visualization', query: this.props.location.query}} className='btn'>
+            Africa & Products
+          </Link>
         </li>
       </ul>
     )
@@ -51,18 +59,4 @@ class Navigation extends React.Component {
 Navigation.defaultProps = {
 };
 
-function mapStateToProps(state, props){
-  let {
-    country,
-    product,
-    variable
-  } = props.location.query;
-
-  return {
-    country,
-    product,
-    variable
-  };
-}
-
-export default connect(mapStateToProps)(Navigation);
+export default Navigation;

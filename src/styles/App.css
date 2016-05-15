@@ -43,17 +43,16 @@
 
 .Grid--visualizations {
   justify-content: space-around;
-}
-
-.Grid-cell-center__all {
-  justify-content: center;
   align-content: center;
   align-items: center;
 }
 
 .Grid-cell--visualizations {
-  height: 550px;
-  width: 500px;
+  height: 450px;
+}
+
+.Grid-cell--timeline {
+  text-align: center;
 }
 
 .Grid--Nav {
@@ -99,6 +98,7 @@
 }
 
 .map-country-text {
+  font-size: 1em;
   cursor: pointer;
   text-anchor: middle;
 }
@@ -114,14 +114,15 @@
 }
 
 .legend {
-  padding: 1.5em 0 0 1.5em;
-  width: 100px;
+  padding: 1.5em 0;
   flex-direction: column-reverse;
+  max-height: 450px;
 }
 
 p.key-text {
   margin: 0;
   padding-left: 5px;
+  align-self: flex-end;
 }
 
 li.key {
@@ -140,8 +141,12 @@ ul {
   list-style: none;
 }
 
+.treemap {
+  margin: 0 auto;
+}
+
 .intro {
-  width: 500px;
+  width: 450px;
 }
 
 .example-enter {
@@ -162,3 +167,30 @@ ul {
   opacity: 0;
 }
 
+.time-line {
+  stroke: steelblue;
+  stroke-width: 1;
+  opacity: 0.5;
+  fill: none;
+}
+
+.time-line__axis {
+  stroke: black;
+  stroke-width: 1;
+  opacity: 1;
+  fill: none;
+}
+
+.time-line__selected {
+  stroke: black;
+  stroke-width: 3;
+  opacity: 1;
+  fill: none;
+}
+
+.time-line__hide {
+  opacity: 0;
+  stroke: steelblue;
+  stroke-width: 1;
+  fill: none;
+}

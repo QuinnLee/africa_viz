@@ -1,12 +1,6 @@
 import axios from 'axios';
+import { get } from 'lodash';
 import * as constants from '../constants';
-
-function requestData(dataType) {
-  return {
-    type: constants.REQUEST_DATA,
-    dataType
-  }
-}
 
 function receiveMap(dataType, data) {
   return {
@@ -24,9 +18,15 @@ function receiveData(dataType, data) {
   }
 }
 
+function receiveTimeseries(data) {
+  return {
+    type: 'RECEIVE_TIMESERIES',
+    data
+  }
+}
+
 export function fetchData(url, dataType) {
   return function(dispatch) {
-    dispatch(requestData(dataType));
     return axios.get(url)
     .then(function(response) {
       let data = response.data;
@@ -38,3 +38,18 @@ export function fetchData(url, dataType) {
     })
   }
 }
+
+export function fetchTimeSeries() {
+  let years = [2009, 2010, 2011, 2012, 2013, 2014];
+  let calls = years.map((year) => {
+    let url = get(constants, `DATA_URL_${year}`);
+    return axios.get(url);
+  });
+  return function(dispatch) {
+    return axios.all(calls).then((response) => {
+      let data = response.map((d) => { return get(d, 'data') });
+      dispatch(receiveTimeseries([data]))
+    });
+  }
+}
+

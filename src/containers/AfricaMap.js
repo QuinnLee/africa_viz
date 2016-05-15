@@ -11,40 +11,41 @@ import { africa } from '../helpers/visualizationHelpers';
 
 import Legend from '../components/Legend';
 
-
-
 class AfricaMap extends React.Component {
   onClick(currentCountry) {
     let {
       country,
       variable,
-      product
+      product,
+      year
     } = this.props;
 
     let currentPath = this.props.location.pathname;
+    let query = { variable, product, year };
 
-    if(country === currentCountry) {
-      hashHistory.replace({ pathname: currentPath, query: { variable, product }});
-    } else {
-      hashHistory.replace({ pathname: currentPath, query: { country: currentCountry, variable, product }});
+    if(country != currentCountry) {
+      query.country = currentCountry;
     }
+
+    hashHistory.replace({ pathname: currentPath, query: query });
   }
   render() {
     let {
       map,
       hasData,
       product,
-      country
+      country,
+      year
     } = this.props;
 
     if(!hasData) { return (<div> loading </div>) }
 
     return (
-      <div className="Grid Grid-cell-center__all">
+      <div className="Grid Grid-cell Grid-cell-center__all">
         <Legend {...this.props}/>
-        <svg width={400} height={500}>
+        <svg className="Grid-cell" width={400} height={450}>
           <g transform='translate(8,8)'>
-            {africa(map, country, product, this.onClick.bind(this))}
+            {africa(map, country, product, year, this.onClick.bind(this))}
           </g>
         </svg>
       </div>
@@ -66,6 +67,7 @@ function mapStateToProps(state, props){
     year
   } = props.location.query;
 
+  year =  year ? parseInt(year): 2014 ;
   variable =  variable === 'import_value' ? 'import_value' : 'export_value';
 
   if(hasData) {
@@ -85,7 +87,8 @@ function mapStateToProps(state, props){
     hasData,
     country,
     variable,
-    product
+    product,
+    year
   }
 }
 

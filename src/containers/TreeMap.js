@@ -9,14 +9,14 @@ import { d3treemap } from '../helpers/visualizationHelpers';
 
 class TreeMap extends React.Component {
   onMouseOver(product) {
-    let { country, variable } = this.props;
+    let { country, variable, year } = this.props;
     let currentPath = this.props.location.pathname;
-    hashHistory.replace({ pathname: currentPath, query: { variable, country, product }});
+    hashHistory.replace({ pathname: currentPath, query: { variable, country, product, year }});
   }
   onMouseOut(country) {
-    let { variable } = this.props;
+    let { variable, year } = this.props;
     let currentPath = this.props.location.pathname;
-    hashHistory.replace({ pathname: currentPath, query: { variable, country }});
+    hashHistory.replace({ pathname: currentPath, query: { variable, country, year }});
   }
   render() {
     let {
@@ -28,7 +28,7 @@ class TreeMap extends React.Component {
     if(hasData) {
       return (
         <div className='Grid Grid-cell-center__all'>
-          <svg width={400} height={400} onMouseOut={() => { this.onMouseOut.call(this, country) }}>
+          <svg className='treemap' width={400} height={400} onMouseOut={() => { this.onMouseOut.call(this, country) }}>
             {d3treemap(data, country, this.onMouseOver.bind(this))}
           </svg>
         </div>
@@ -51,17 +51,18 @@ function mapStateToProps(state, props){
     variable
   } = props.location.query;
 
+  year =  year ? parseInt(year): 2014 ;
   variable =  variable === 'import_value' ? 'import_value' : 'export_value';
 
   let filteredData = dataFilter(country, null, year, tradeData);
-
   let treeData = createTreeData(filteredData);
 
   return {
     hasData,
     variable,
     data: createTreeMap(variable, treeData),
-    country
+    country,
+    year
   }
 }
 
