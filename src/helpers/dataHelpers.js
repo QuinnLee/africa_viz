@@ -59,7 +59,7 @@ export const createTreeData = (filteredData) => {
     .rollup((leaves) => {
       return {
         'import_value': sumBy(leaves, 'import_value'),
-        'export_value': sumBy(leaves, 'export_value'),
+        'export_value': sumBy(leaves, 'export_value')
       };
     })
     .entries(filteredData);

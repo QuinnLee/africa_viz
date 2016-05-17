@@ -3,30 +3,24 @@ require('styles/App.css');
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { hashHistory } from 'react-router'
-import { get, sumBy, groupBy, map, isFinite } from 'lodash';
-import { dataFilter } from '../helpers/dataHelpers';
+import { get, sumBy, map, isFinite } from 'lodash';
 import d3 from 'd3';
 
 function translateX(scale0, scale1, d) {
   var x = scale0(d);
-  return "translate(" + (isFinite(x) ? x : scale1(d)) + ",0)";
+  return 'translate(' + (isFinite(x) ? x : scale1(d)) + ',0)';
 }
 
 function translateY(scale0, scale1, d) {
   var y = scale0(d);
-  return "translate(0," + (isFinite(y) ? y : scale1(d)) + ")";
+  return 'translate(0,' + (isFinite(y) ? y : scale1(d)) + ')';
 }
-let boxes = (scale, mouseOver) => {
+let boxes = (scale) => {
   let ticks = scale.ticks(4);
-  let range = scale.range();
-  let range0 = range[0];
-  let range1 = range[range.length-1];
-  let format = scale.tickFormat()
   let width= scale(ticks[1]);
   return map(ticks, (d) => {
     return (
-      <g key={`${d}-rect`} onMouseOver={() => console.log(d)} transform={translateX(scale, scale, d)}>
+      <g key={`${d}-rect`} transform={translateX(scale, scale, d)}>
         <rect style={{fill: 'none'}} width={width} height={400}/>
       </g>
     );
@@ -42,8 +36,8 @@ let xAxis = (scale) => {
   let markers = map(ticks, (d) => {
     return (
       <g key={d} style={{opacity: 1}}  className='tick' transform={translateX(scale, scale, d)}>
-        <line x2="0" y2="6" style={{opacity: 1, stroke: 'black'}}/>
-        <text dy='.71em' x="0" y="12" style={{textAnchor: "middle"}}>
+        <line x2='0' y2='6' style={{opacity: 1, stroke: 'black'}}/>
+        <text dy='.71em' x='0' y='12' style={{textAnchor: 'middle'}}>
           {format(d)}
         </text>
       </g>
@@ -67,8 +61,8 @@ let yAxis = (scale) => {
   let markers = map(ticks, (d) => {
     return (
       <g key={d} style={{opacity: 1}}  className='tick' transform={translateY(scale, scale, d)}>
-        <line x2="6" y2="0" style={{opacity: 1, stroke: 'black'}}/>
-        <text dy='.32em' x="-30" y="0" style={{textAnchor: "middle"}}>
+        <line x2='6' y2='0' style={{opacity: 1, stroke: 'black'}}/>
+        <text dy='.32em' x='-30' y='0' style={{textAnchor: 'middle'}}>
           {format(d)}
         </text>
       </g>
@@ -79,7 +73,7 @@ let yAxis = (scale) => {
       <path style={{ shapeRendering: 'crispEdges', stroke: 'black', fill: 'none'}}
         d={`M-6,${range0}H0V${range1}H-6`}/>
       {markers}
-      <text transform="rotate(-90)" y="6" x="-50" dy=".71em" style={{textAnchor: "middle"}}>
+      <text transform='rotate(-90)' y='6' x='-50' dy='.71em' style={{textAnchor: 'middle'}}>
         % Change
       </text>
     </g>
@@ -87,22 +81,15 @@ let yAxis = (scale) => {
 }
 
 class LineChart extends React.Component {
-  onMouseOver(d) {
-    console.log(d);
-  }
   render() {
     var {
       data,
       line,
-      country,
-      product,
       hasData,
-      groupByVariable,
       xScale,
       yScale
     } = this.props;
 
-    let group = groupByVariable === 'product_name' ? product : country;
     let className = 'time-line';
     let lines = map(data, function(d) {
       return (
@@ -155,8 +142,8 @@ function mapStateToProps(state, props){
   data = map(data, (datum, group) => {
     let series = map(years, (year) => {
       let previousYear = parseInt(year) - 1;
-      let currentValue = _.get(datum, year, 0);
-      let previousValue = _.get(datum, previousYear, 0);
+      let currentValue = get(datum, year, 0);
+      let previousValue = get(datum, previousYear, 0);
       let change = ((currentValue - previousValue) / previousValue );
       change = isFinite(change) ? change : 1;
       if(!product && !country) {

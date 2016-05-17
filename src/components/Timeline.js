@@ -41,7 +41,6 @@ class Timeline extends React.Component {
     let {
       year,
       years,
-      showTimeline,
       hasData
     } = this.props;
 
@@ -71,15 +70,12 @@ function mapStateToProps(state, props){
   variable =  variable === 'import_value' ? 'import_value' : 'export_value';
   year =  year ? year: 2014 ;
 
-  let showTimeline = props.location.pathname === '/visualization';
-
   return {
     country,
     product,
     variable,
     year,
     years,
-    showTimeline,
     hasData
   };
 }
