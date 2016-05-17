@@ -4,6 +4,7 @@ require('styles/App.css');
 import React from 'react';
 import { connect } from 'react-redux';
 import { get, sumBy, map, isFinite } from 'lodash';
+import numbro from 'numbro';
 import d3 from 'd3';
 
 function translateX(scale0, scale1, d) {
@@ -80,11 +81,30 @@ let yAxis = (scale) => {
   );
 }
 
+let yearValue = (data, xScale, yScale) => {
+  let datum = data[0];
+  let series = datum.series.slice(1);
+  return map(series, (d) => {
+    let x = xScale(new Date(d.year, 0));
+    let y = yScale(d.value);
+    return (
+      <g key={`${d.year}-circle`}>
+        <circle className='dot' r='3.5' cy={y} cx={x} style={{fill: 'black'}}/>
+        <text dy='-1em' dx='-2em'  x={x} y={y} style={{textAnchor: 'middle'}}>
+          {numbro(d.label).format('$ 0.0 a')}
+        </text>
+      </g>
+    );
+  });
+}
+
 class LineChart extends React.Component {
   render() {
     var {
       data,
       line,
+      product,
+      country,
       hasData,
       xScale,
       yScale
@@ -96,15 +116,16 @@ class LineChart extends React.Component {
         <path key={d.group} className={className} d={line(d.series)}/>
       );
     })
-   let mouseOver = this.onMouseOver.bind(this);
+   let circles = country || product ? yearValue(data, xScale, yScale) : null;
    if(!hasData) { return (<h1> Loading </h1>)}
    return (
      <svg width={500} height={400}>
       <g transform='translate(60, 10)'>
-        {boxes(xScale, mouseOver)}
+        {boxes(xScale)}
         {yAxis(yScale)}
         {xAxis(xScale)}
         {lines}
+        {circles}
       </g>
      </svg>
     )
@@ -150,15 +171,16 @@ function mapStateToProps(state, props){
         yMin = change < yMin ? change : yMin;
         yMax = change > yMax ? change : yMax;
       }
-      return { year: year, value: change };
+      return { year: year, value: change, label: currentValue };
     })
     if(group === product || group === country) {
       [yMin, yMax] = d3.extent(series, (d) => d.value);
     } else {
-      if(country || product) { return { group, series: []} }
+      if(country || product) { return null }
     }
     return { group, series };
   });
+
 
   let xScale = d3.time.scale()
     .range([0, 420])
@@ -170,7 +192,7 @@ function mapStateToProps(state, props){
     .clamp(true);
 
   var line = d3.svg.line()
-    .interpolate('basis')
+    .interpolate('monotone')
     .x((d) => { return xScale(new Date(d.year, 0)); })
     .y((d) => { return yScale(d.value); });
 
@@ -182,7 +204,7 @@ function mapStateToProps(state, props){
     year,
     groupByVariable,
     line,
-    data,
+    data: _.compact(data),
     xScale,
     yScale
   }

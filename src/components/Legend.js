@@ -34,7 +34,7 @@ function mapStateToProps(state, props){
 
   variable =  variable === 'import_value' ? 'import_value' : 'export_value';
 
-  let data = dataFilter(null, product, year, tradeData);
+  let data = dataFilter(null, null, year, tradeData);
   let trade = values(tradeValue(data, variable));
   let colors = colorScale(trade)
 

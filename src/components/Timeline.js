@@ -10,7 +10,7 @@ let timeline = (years, currentYear = 2014, onClick) => {
     return (
       <li
         key={year}
-        onClick={()=> {onClick(year)}}
+        onMouseOver={()=> {onClick(year)}}
         className={`Grid-cell Grid-cell--timeline btn ${isActive}`}
       >
         { year }
