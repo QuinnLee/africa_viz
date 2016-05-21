@@ -41,11 +41,9 @@ class Header extends Component {
     }
 
    return (
-     <div>
-       <h1 className='question'>
-        {header}
-       </h1>
-     </div>
+     <h1 className='question'>
+      {header}
+     </h1>
     );
   }
 }

@@ -28,6 +28,9 @@
 }
 .Grid--center {
   align-items: center;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Alignment per cell */
@@ -112,7 +115,10 @@
 }
 
 .treemap {
-  position: relative;
+  align-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .treemap--rect {
@@ -141,7 +147,11 @@ li.key {
 }
 
 .question {
-  height: 3em;
+  margin: 1em;
+}
+
+.sticky {
+  background: #999;
 }
 
 ul {

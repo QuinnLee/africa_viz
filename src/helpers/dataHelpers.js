@@ -68,7 +68,7 @@ export const createTreeData = (filteredData) => {
 export const createTreeMap = (variable, treeData) => {
   return  d3.layout.treemap()
     .children((d) => d)
-    .size([400, 400])
+    .size([375, 400])
     .sticky(true)
     .sort((a,b) => {
       return get(a, `values.${variable}`) - get(b, `values.${variable}`);
