@@ -18,6 +18,14 @@ class App extends Component {
     fetchTimeSeries();
   }
   render() {
+    let bottomVisualization = null;
+    if(this.props.bottom) {
+      bottomVisualization = (
+        <div className="Grid Grid--center Grid--visualizations__timeline">
+          {this.props.bottom}
+        </div>
+      );
+    }
     return (
       <div className="content">
         <header className="header">
@@ -38,7 +46,7 @@ class App extends Component {
             {this.props.right}
           </div>
         </div>
-        <Timeline {...this.props}/>
+        {bottomVisualization}
       </div>
     );
   }

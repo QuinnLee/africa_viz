@@ -40,14 +40,14 @@ export const d3treemap = (tree, country, onMouseOver) => {
 }
 
 export const africa = (data, country, product, year, onClick) => {
-  let side = 37;
+  let side = 34;
   let className = country ? 'map-country__deselected' : 'map-country';
   return data.map((d) => {
     let countryClass = d.name === country ? 'map-country__selected ' : className;
     return (
       <g key={`${d.name}-${year}`} transform={`translate(${d.x*side},${d.y*side})`} onClick={() => { onClick(d.name);}}>
         <rect width={side} height={side} className={countryClass} fill={d.color} vector-effect="non-scaling-stroke"/>
-        <text x="18" y="24" className="map-country-text">{d['3digit']}</text>
+        <text x="16" y="22" className="map-country-text">{d['3digit']}</text>
       </g>
     );
   });

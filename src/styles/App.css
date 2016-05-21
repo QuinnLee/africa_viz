@@ -48,7 +48,15 @@
 }
 
 .Grid-cell--visualizations {
-  height: 450px;
+  height: 400px;
+}
+
+.Grid-cell--visualizations_timeline {
+  height: 200px;
+}
+
+.Grid--visualizations__timeline {
+  height: 300px;
 }
 
 .Grid-cell--timeline {
@@ -114,9 +122,8 @@
 }
 
 .legend {
-  padding: 1.5em 0;
   flex-direction: column-reverse;
-  max-height: 450px;
+  max-height: 400px;
 }
 
 p.key-text {

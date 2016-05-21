@@ -43,7 +43,7 @@ class AfricaMap extends React.Component {
     return (
       <div className="Grid Grid-cell Grid-cell-center__all">
         <Legend {...this.props}/>
-        <svg className="Grid-cell" width={400} height={450}>
+        <svg className="Grid-cell" width={400} height={400}>
           <g transform='translate(8,8)'>
             {africa(map, country, product, year, this.onClick.bind(this))}
           </g>

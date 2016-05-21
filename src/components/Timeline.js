@@ -10,7 +10,7 @@ let timeline = (years, currentYear = 2014, onClick) => {
     return (
       <li
         key={year}
-        onMouseOver={()=> {onClick(year)}}
+        onClick={()=> {onClick(year)}}
         className={`Grid-cell Grid-cell--timeline btn ${isActive}`}
       >
         { year }
@@ -41,10 +41,11 @@ class Timeline extends React.Component {
     let {
       year,
       years,
-      hasData
+      hasData,
+      showTimeline
     } = this.props;
 
-    if(!hasData) {
+    if(!hasData || !showTimeline) {
       return ( null);
     }
 
@@ -65,12 +66,15 @@ function mapStateToProps(state, props){
     year
   } = props.location.query;
 
-  let years = [2009, 2010, 2011, 2012, 2013, 2014];
+  let years = [2010, 2011, 2012, 2013, 2014];
 
   variable =  variable === 'import_value' ? 'import_value' : 'export_value';
   year =  year ? year: 2014 ;
 
+  let showTimeline = props.location.pathname === '/visualization';
+
   return {
+    showTimeline,
     country,
     product,
     variable,

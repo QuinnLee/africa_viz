@@ -28,7 +28,7 @@ class TreeMap extends React.Component {
     if(hasData) {
       return (
         <div className='Grid Grid-cell-center__all'>
-          <svg className='treemap' width={400} height={400} onMouseOut={() => { this.onMouseOut.call(this, country) }}>
+          <svg className='treemap' width={350} height={350} onMouseOut={() => { this.onMouseOut.call(this, country) }}>
             {d3treemap(data, country, this.onMouseOver.bind(this))}
           </svg>
         </div>

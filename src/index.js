@@ -19,9 +19,9 @@ numbro.culture('us-vis', {
     decimal: '.'
   },
   abbreviations: {
-    thousand: 'thousand',
-    million: 'million',
-    billion: 'billion'
+    thousand: 'K',
+    million: 'M',
+    billion: 'B'
   },
   currency: {
     symbol: '$',
@@ -41,7 +41,8 @@ render(
       <Route path='/' component={App}>
         <IndexRoute components={{left: AfricaMap, right: LineChart}}/>
         <Route path='treemap' components={{left: LineChart, right:TreeMap}}/>
-        <Route path='visualization' components={{left: AfricaMap, right: TreeMap}}/>
+        <Route path='treemap' components={{left: LineChart, right:TreeMap}}/>
+        <Route path='visualization' components={{left: TreeMap, right: AfricaMap, bottom: LineChart}}/>
       </Route>
     </Router>
   </Provider>,
