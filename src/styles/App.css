@@ -54,12 +54,8 @@
   height: 400px;
 }
 
-.Grid-cell--visualizations_timeline {
-  height: 200px;
-}
-
 .Grid--visualizations__timeline {
-  height: 300px;
+  height: 200px;
 }
 
 .Grid-cell--timeline {
@@ -97,7 +93,7 @@
 
 .map-country__deselected {
   fill-opacity: 0.2;
-  stroke-opacity: 0.8;
+  stroke-opacity: 0.7;
   cursor: pointer;
   stroke: rgb(170, 170, 170);
 }
@@ -105,7 +101,9 @@
 .map-country__selected {
   cursor: pointer;
   fill-opacity: 1;
-  stroke: rgb(170, 170, 170);
+  stroke-width:2px;
+  stroke-opacity: 1;
+  stroke: #484848;
 }
 
 .map-country-text {
@@ -122,6 +120,7 @@
 }
 
 .treemap--rect {
+  cursor: pointer;
   fill-opacity: 0.5;
   fill: rgb(170, 170, 170);
   stroke: rgb(170, 170, 170);
@@ -147,7 +146,7 @@ li.key {
 }
 
 .question {
-  margin: 1em;
+  margin: 0.5em;
 }
 
 .sticky {
@@ -211,3 +210,15 @@ ul {
   stroke-width: 1;
   fill: none;
 }
+
+.dotted {
+  border-bottom: 1px dotted #000;
+  text-decoration: none;
+  cursor: pointer;
+  padding-bottom: 0.25em;
+}
+
+foreignobject {
+  cursor: pointer;
+}
+

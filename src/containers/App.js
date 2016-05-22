@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import { StickyContainer, Sticky } from 'react-sticky';
 
 import Header from '../components/Header';
-import Navigation from '../components/Navigation';
-import Timeline from '../components/Timeline';
 
 import * as constants from '../constants';
 
@@ -37,13 +35,6 @@ class App extends Component {
           </Sticky>
         </header>
         <div className="content">
-          <header className="header">
-            <div className='Grid Grid--center'>
-              <div className="Grid-cell">
-                <Navigation {...this.props}/>
-              </div>
-            </div>
-          </header>
           <div className="Grid Grid--center Grid--visualizations">
             <div className="Grid-cell Grid-cell--visualizations">
               {this.props.left}

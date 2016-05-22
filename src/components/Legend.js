@@ -26,6 +26,7 @@ class Legend extends React.Component {
 function mapStateToProps(state, props){
   let {
     product,
+    country,
     variable,
     year
   } = props.location.query;
@@ -34,7 +35,7 @@ function mapStateToProps(state, props){
 
   variable =  variable === 'import_value' ? 'import_value' : 'export_value';
 
-  let data = dataFilter(null, null, 2014, tradeData);
+  let data = dataFilter(country, product, year, tradeData);
   let trade = values(tradeValue(data, variable));
   let colors = colorScale(trade)
 

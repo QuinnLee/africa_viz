@@ -43,7 +43,7 @@ let xAxis = (scale , height, topMargin, bottomMargin) => {
     return (
       <g key={d} style={{opacity: 1}}  className='tick' transform={translateX(scale, scale, d)}>
         <line x2='0' y2='0' style={{opacity: 1, stroke: 'black'}}/>
-        <text dy='.71em' x='0' y='12' style={{textAnchor: 'middle'}}>
+        <text dy='.71em' x='0' y='14' style={{textAnchor: 'middle'}}>
           {format(d)}
         </text>
       </g>
@@ -74,7 +74,7 @@ let yAxis = (scale) => {
     );
   });
   return (
-    <g className='y axis' transform='translate(110,0)'>
+    <g className='y axis' transform='translate(-20,0)'>
       <path style={{ shapeRendering: 'crispEdges', stroke: 'black', fill: 'none'}}
         d={`M-6,${range0}H0V${range1}H-6`}/>
       {markers}
@@ -100,10 +100,10 @@ let yearValue = (data, xScale, yScale) => {
   });
 }
 
-let vertialLine = (year, scale) => {
+let vertialLine = (year, scale, height) => {
   if(!year) { return null }
   let x = scale(new Date(year, 0));
-  return ( <line x1={x} x2={x} y1="-35" y2="370" strokeWidth="0.5" stroke="black"/>);
+  return ( <line x1={x} x2={x} y1="0" y2={height} strokeWidth="0.5" stroke="black"/>);
 }
 
 class LineChart extends React.Component {
@@ -128,9 +128,6 @@ class LineChart extends React.Component {
     var {
       data,
       hasData,
-      country,
-      variable,
-      product,
       year
     } = this.props;
 
@@ -150,7 +147,7 @@ class LineChart extends React.Component {
 
     let yScale = d3.scale.linear()
       .range([height - topMargin - bottomMargin, 0])
-      .domain([yMin - 0.1,  yMax + 0.1])
+      .domain([yMin * .80,  yMax * 1.2])
       .clamp(true);
 
     var line = d3.svg.line()
@@ -164,13 +161,13 @@ class LineChart extends React.Component {
     if(!hasData) { return (<h1> Loading </h1>)}
     return (
       <svg width={width} height={height}>
-        {yAxis(yScale)}
         <g transform={`translate(${leftMargin}, ${topMargin})`}>
+          {yAxis(yScale)}
           {boxes(xScale, this.changeYear.bind(this))}
           {xAxis(xScale, height, topMargin, bottomMargin)}
           {lines}
           {circles}
-          {vertialLine(year, xScale)}
+          {vertialLine(year, xScale, height-80)}
         </g>
       </svg>
     )
@@ -216,7 +213,7 @@ function mapStateToProps(state, props){
     variable,
     product,
     year,
-    data: data.slice(1),
+    data: data.slice(1)
   }
 }
 export default connect(mapStateToProps)(Dimensions()(LineChart));

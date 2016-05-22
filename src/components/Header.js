@@ -8,9 +8,58 @@ import React, {
 import { connect } from 'react-redux';
 import { get, sumBy } from 'lodash';
 import { dataFilter } from '../helpers/dataHelpers';
+import { hashHistory } from 'react-router'
 import numbro from 'numbro';
 
+
+let verb = (verb, action) => {
+  return (
+    <u className="dotted" onClick={() => action()}>
+      {verb}
+    </u>
+  );
+};
+
+let resetButton = (country, action) => {
+  return (
+    <u className="dotted" onClick={() => action()}>
+      {country}
+    </u>
+  );
+}
+
 class Header extends Component {
+  toggleVerb() {
+    let {
+      country,
+      product,
+      variable,
+      year
+    } = this.props.location.query;
+
+    let currentPath = this.props.location.pathname;
+
+    variable = variable === 'import_value' ? 'export_value': 'import_value';
+
+    hashHistory.replace({
+      pathname: currentPath,
+      query: { product, country, year, variable }
+    });
+
+  }
+  reset() {
+    let {
+      variable,
+      year
+    } = this.props.location.query;
+
+    let currentPath = this.props.location.pathname;
+
+    hashHistory.replace({
+      pathname: currentPath,
+      query: { year, variable }
+    });
+  }
   render() {
     let {
       country,
@@ -30,19 +79,13 @@ class Header extends Component {
       'export_value': 'to'
     }
 
-    let header = `In ${year}, what was trade between Africa and China?`
-
-    if(country && product) {
-      header = `In ${year}, ${country} ${get(verbs, variable)} ${numbro(value).format('$ 0.00 a')} worth of ${product} ${get(destination, variable)} China`;
-    } else if(country && !product) {
-      header = `In ${year}, ${country} ${get(verbs, variable)} ${numbro(value).format('$ 0.00 a')} ${get(destination, variable)} China`;
-    } else if(!country && product) {
-      header = `In ${year}, Africa ${get(verbs, variable)} ${numbro(value).format('$ 0.00 a')} ${get(destination, variable)} of ${product} ${get(destination, variable)} China`;
-    }
+    let verbText = get(verbs, variable);
+    country = country ? resetButton(country, this.reset.bind(this)) : 'Africa';
+    product =  product ? `of ${product} ${get(destination, variable)} China` : `${get(destination, variable)} China`;
 
    return (
      <h1 className='question'>
-      {header}
+      In {year}, {country} {verb(verbText, this.toggleVerb.bind(this))} {numbro(value).format('$ 0.00 a')} {product}
      </h1>
     );
   }
@@ -59,7 +102,6 @@ function mapStateToProps(state, props){
     variable,
     year
   } = props.location.query;
-
 
   let data = dataFilter(country, product, year, tradeData);
 

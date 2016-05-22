@@ -39,10 +39,7 @@ render(
   <Provider store={store}>
     <Router history={hashHistory}>
       <Route path='/' component={App}>
-        <IndexRoute components={{left: AfricaMap, right: LineChart}}/>
-        <Route path='treemap' components={{left: LineChart, right:TreeMap}}/>
-        <Route path='treemap' components={{left: LineChart, right:TreeMap}}/>
-        <Route path='visualization' components={{left: TreeMap, right: AfricaMap, bottom: LineChart}}/>
+        <IndexRoute components={{left: TreeMap, right: AfricaMap, bottom: LineChart}}/>
       </Route>
     </Router>
   </Provider>,
