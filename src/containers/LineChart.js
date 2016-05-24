@@ -134,7 +134,7 @@ class LineChart extends React.Component {
     let width = this.props.containerWidth;
     let height = this.props.containerHeight;
     let leftMargin = 130;
-    let rightMargin = 20;
+    let rightMargin = 130;
     let topMargin = 30;
     let bottomMargin = 50;
 

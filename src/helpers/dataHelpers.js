@@ -41,7 +41,7 @@ export const colorScale = (data = []) => {
 
 export const tradeValue = (data, variable) => {
   return  reduce(data, (memo, datum) => {
-    let id = get(datum, '3digit');
+    let id = get(datum, 'country_name');
 
     if(isUndefined(memo[id])) {
       memo[id] = get(datum, variable);

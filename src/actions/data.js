@@ -2,9 +2,18 @@ import axios from 'axios';
 import { get } from 'lodash';
 import * as constants from '../constants';
 
+
 function receiveMap(dataType, data) {
   return {
     type: constants.RECEIVE_MAP,
+    dataType,
+    data: data
+  }
+}
+
+function receiveTopoJson(dataType, data) {
+  return {
+    type: constants.RECIEVE_TOPO,
     dataType,
     data: data
   }
@@ -34,6 +43,8 @@ export function fetchData(url, dataType) {
         dispatch(receiveData(dataType, data));
       } else if (dataType === 'map') {
         dispatch(receiveMap(dataType, data));
+      } else if (dataType === 'topoJson') {
+        dispatch(receiveTopoJson(dataType, data));
       }
     })
   }
@@ -53,3 +64,8 @@ export function fetchTimeSeries() {
   }
 }
 
+export function toggleMap(dataType, data) {
+  return {
+    type: 'TOGGLE_MAP'
+  }
+}

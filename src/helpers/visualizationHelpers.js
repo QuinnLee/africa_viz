@@ -1,6 +1,6 @@
 import React from 'react';
 import numbro from 'numbro';
-
+import d3 from 'd3';
 import {
   chain,
   map
@@ -62,9 +62,27 @@ export const colorLegend = (scale) => {
     return (
       <li key={`${scale(d)}-${d}`} className='key Grid Grid-cell' style={style}>
         <p className='key-text'>
-          {numbro(d).format('$ 0 a')}
+          {numbro(d).format('$ 0.0 a')}
         </p>
       </li>
      );
   });
+}
+
+export const topoMap = (topoJson, country, year, onClick) => {
+  var projection = d3.geo.mercator().scale(280).center([80,-10]);
+  let className = country ? 'topo-map__deselected' : 'topo-map';
+  return topoJson.map((d,i) => {
+    let name = d.properties.name;
+    let countryClass = name === country ? 'topo-map__selected' : className;
+    return (
+      <path
+        className={countryClass}
+        key={i}
+        onClick={() => onClick(name)}
+        fill={d.color}
+        d={d3.geo.path().projection(projection)(d)}
+      />
+    );
+  })
 }

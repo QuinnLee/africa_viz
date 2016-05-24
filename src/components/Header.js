@@ -8,13 +8,14 @@ import React, {
 import { connect } from 'react-redux';
 import { get, sumBy } from 'lodash';
 import { dataFilter } from '../helpers/dataHelpers';
-import { hashHistory } from 'react-router'
+import { hashHistory } from 'react-router';
+import ReactTooltip from 'react-tooltip';
 import numbro from 'numbro';
 
 
 let verb = (verb, action) => {
   return (
-    <u className="dotted" onClick={() => action()}>
+    <u className="dotted" data-tip data-for='resetVariable' onClick={() => action()}>
       {verb}
     </u>
   );
@@ -22,7 +23,7 @@ let verb = (verb, action) => {
 
 let resetButton = (country, action) => {
   return (
-    <u className="dotted" onClick={() => action()}>
+    <u className="dotted" data-tip data-for='resetCountry' onClick={() => action()}>
       {country}
     </u>
   );
@@ -74,19 +75,33 @@ class Header extends Component {
       'export_value': 'exported'
     }
 
+    let verbsCopy = {
+      'export_value': 'import',
+      'import_value': 'export'
+    }
+
     let destination = {
       'import_value': 'from',
       'export_value': 'to'
     }
 
     let verbText = get(verbs, variable);
-    country = country ? resetButton(country, this.reset.bind(this)) : 'Africa';
+    country = country ? country : 'Africa';
+    let countryButton = resetButton(country, this.reset.bind(this));
     product =  product ? `of ${product} ${get(destination, variable)} China` : `${get(destination, variable)} China`;
 
    return (
-     <h1 className='question'>
-      In {year}, {country} {verb(verbText, this.toggleVerb.bind(this))} {numbro(value).format('$ 0.00 a')} {product}
-     </h1>
+     <div>
+       <h1 className='question'>
+        In {year}, {countryButton} {verb(verbText, this.toggleVerb.bind(this))} {numbro(value).format('$ 0.00 a')} {product}
+       </h1>
+       <ReactTooltip id='resetVariable' place="bottom" type="light">
+         <span>Click here to see {get(verbsCopy,variable)} data</span>
+       </ReactTooltip>
+       <ReactTooltip id='resetCountry' place="bottom" type="light">
+         <span>Click here to see data for the continent</span>
+       </ReactTooltip>
+     </div>
     );
   }
 }

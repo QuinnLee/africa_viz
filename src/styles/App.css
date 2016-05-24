@@ -85,33 +85,6 @@
   border-width: 1px 0;
   background: #666;
 }
-
-.map-country {
-  cursor: pointer;
-  stroke: rgb(170, 170, 170);
-}
-
-.map-country__deselected {
-  fill-opacity: 0.2;
-  stroke-opacity: 0.7;
-  cursor: pointer;
-  stroke: rgb(170, 170, 170);
-}
-
-.map-country__selected {
-  cursor: pointer;
-  fill-opacity: 1;
-  stroke-width:2px;
-  stroke-opacity: 1;
-  stroke: #484848;
-}
-
-.map-country-text {
-  font-size: 1em;
-  cursor: pointer;
-  text-anchor: middle;
-}
-
 .treemap {
   align-content: center;
   display: flex;
@@ -220,5 +193,48 @@ ul {
 
 foreignobject {
   cursor: pointer;
+}
+
+.topo-map {
+  cursor: pointer;
+}
+
+.topo-map__deselected {
+  cursor: pointer;
+}
+
+.topo-map__selected {
+  cursor: pointer;
+  stroke: black;
+  stroke-width: 1.4px;
+  stroke-dasharray: 2,2;
+  stroke-linejoin: round;
+}
+
+.map-toggle {
+  height: 30px;
+}
+
+.map-country {
+  cursor: pointer;
+  stroke: rgb(170, 170, 170);
+}
+
+.map-country__deselected {
+  cursor: pointer;
+}
+
+.map-country__selected {
+  cursor: pointer;
+  stroke: black;
+  stroke-width: 1.4px;
+  stroke-dasharray: 2,2;
+  stroke-linejoin: round;
+}
+
+.map-country-text {
+  font-size: 1em;
+  cursor: pointer;
+  text-anchor: middle;
 }
 

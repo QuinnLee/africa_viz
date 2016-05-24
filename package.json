@@ -60,9 +60,11 @@
     "react-dimensions": "^1.1.1",
     "react-hot-loader": "^1.2.9",
     "react-sticky": "^5.0.1",
+    "react-tooltip": "^2.0.2",
     "rimraf": "^2.4.3",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
+    "topojson": "^1.6.26",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.0",
     "webpack-dev-server": "^1.12.0"

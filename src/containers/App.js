@@ -14,6 +14,7 @@ class App extends Component {
   componentDidMount() {
     const { fetchData, fetchTimeSeries } = this.props.actions;
     fetchData(constants.MAP_URL, 'map');
+    fetchData(constants.TOPO_URL, 'topoJson');
     fetchTimeSeries();
   }
   render() {
