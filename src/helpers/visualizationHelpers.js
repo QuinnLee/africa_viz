@@ -6,7 +6,7 @@ import {
   map
 } from 'lodash';
 
-export const d3treemap = (tree, country, onMouseOver) => {
+export const d3treemap = (tree, country, product, action, onHover) => {
   let maxArea = chain(tree)
     .first()
     .get('area')
@@ -21,32 +21,42 @@ export const d3treemap = (tree, country, onMouseOver) => {
       padding: 5,
       margin: 0,
       fontSize: 20,
-      textOverflow: 'ellipsis-word',
       overflow: 'hidden',
-      whiteSpace: 'nowrap'
     };
 
-    let p = maxArea/300 < node.area ? <p style={pStyle}> {node.key} </p> : null;
+    let fill = null;
+
+    if(product&& product=== node.key) {
+      fill = 1;
+    } else if(product) {
+      fill = 0.2;
+    } else {
+      fill = 0.5;
+    }
+
+    let rectStyle = {
+      fillOpacity: fill
+    }
 
     return(
-      <g key={`${node.key}-${i}`} transform={t} onMouseOver={() => { onMouseOver(node.key);}}>
-        <rect className="treemap--rect" width={node.dx} height={node.dy} vector-effect="non-scaling-stroke"/>
+      <g key={`${node.key}-${i}`} transform={t} onClick={() => { action(node.key);}} onMouseOver={() => onHover(node.key)}>
+        <rect className="treemap--rect" style={rectStyle} width={node.dx} height={node.dy} vector-effect="non-scaling-stroke"/>
         <foreignObject width={node.dx} height={node.dy}>
-          {p}
+         <p style={pStyle}> {node.key} </p>
         </foreignObject>
       </g>
     );
   });
 }
 
-export const africa = (data, country, product, year, onClick) => {
+export const africa = (data, country, product, year, onClick, onHover) => {
   let side = 35;
   let className = country ? 'map-country__deselected' : 'map-country';
   return data.map((d) => {
     let countryClass = d.name === country ? 'map-country__selected ' : className;
     return (
       <g key={`${d.name}-${year}`} transform={`translate(${d.x*side},${d.y*side})`} onClick={() => { onClick(d.name);}}>
-        <rect width={side-2} height={side-2} y="1" x="1" className={countryClass} fill={d.color} vector-effect="non-scaling-stroke"/>
+        <rect width={side-2} height={side-2} y="1" x="1" className={countryClass} fill={d.color} onMouseOver= {()=> { onHover(d.name)}} vector-effect="non-scaling-stroke"/>
         <text x="18" y="22" className="map-country-text">{d['3digit']}</text>
       </g>
     );

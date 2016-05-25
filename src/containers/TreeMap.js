@@ -6,30 +6,58 @@ import { hashHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { dataFilter, createTreeData, createTreeMap  } from '../helpers/dataHelpers';
 import { d3treemap } from '../helpers/visualizationHelpers';
+import ReactTooltip from 'react-tooltip';
 
 class TreeMap extends React.Component {
-  onMouseOver(product) {
-    let { country, variable, year } = this.props;
-    let currentPath = this.props.location.pathname;
-    hashHistory.replace({ pathname: currentPath, query: { variable, country, product, year }});
+  constructor(props) {
+    super(props);
+    this.state = { hoverProduct:  null};
   }
-  onMouseOut(country) {
-    let { variable, year } = this.props;
+  onHover(product) {
+    this.setState({ hoverProduct: product });
+  }
+  onClick(currentProduct) {
+    let {
+      country,
+      variable,
+      product,
+      year
+    } = this.props;
+
     let currentPath = this.props.location.pathname;
-    hashHistory.replace({ pathname: currentPath, query: { variable, country, year }});
+    let query = { variable, country, year };
+
+    if(product != currentProduct) {
+      query.product= currentProduct;
+    }
+
+    hashHistory.replace({ pathname: currentPath, query: query });
   }
   render() {
     let {
       hasData,
       data,
+      product,
       country
     } = this.props;
 
+    let tooltip = null;
+    if(this.state.hoverProduct) {
+      tooltip = (
+        <ReactTooltip id='onProduct' type='error'>
+          <span>{this.state.hoverProduct}</span>
+        </ReactTooltip>
+      );
+    }
+
     if(hasData) {
       return (
-        <svg className="treemap" width={375} height={400} onMouseOut={() => { this.onMouseOut.call(this, country) }}>
-          {d3treemap(data, country, this.onMouseOver.bind(this))}
-        </svg>
+        <div>
+          <svg data-tip data-for='onProduct' className="treemap" width={375} height={400}>
+            {d3treemap(data, country, product,  this.onClick.bind(this), this.onHover.bind(this))}
+          </svg>
+          {tooltip}
+        </div>
        );
     } else  {
       return ( <div> loading </div>);
@@ -45,6 +73,7 @@ function mapStateToProps(state, props){
 
   let {
     country,
+    product,
     year,
     variable
   } = props.location.query;
@@ -60,6 +89,7 @@ function mapStateToProps(state, props){
     variable,
     data: createTreeMap(variable, treeData),
     country,
+    product,
     year
   }
 }

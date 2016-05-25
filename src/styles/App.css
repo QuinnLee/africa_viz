@@ -94,9 +94,8 @@
 
 .treemap--rect {
   cursor: pointer;
-  fill-opacity: 0.5;
   fill: rgb(170, 170, 170);
-  stroke: rgb(170, 170, 170);
+  stroke: #fff;
 }
 
 .legend {

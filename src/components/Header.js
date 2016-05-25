@@ -29,6 +29,14 @@ let resetButton = (country, action) => {
   );
 }
 
+let productButton = (product, action) => {
+  return (
+    <u className="dotted" data-tip data-for='resetProduct' onClick={() => action()}>
+      {product}
+    </u>
+  );
+}
+
 class Header extends Component {
   toggleVerb() {
     let {
@@ -47,6 +55,20 @@ class Header extends Component {
       query: { product, country, year, variable }
     });
 
+  }
+  resetProduct() {
+    let {
+      variable,
+      year,
+      country
+    } = this.props.location.query;
+
+    let currentPath = this.props.location.pathname;
+
+    hashHistory.replace({
+      pathname: currentPath,
+      query: { year, variable, country }
+    });
   }
   reset() {
     let {
@@ -88,12 +110,12 @@ class Header extends Component {
     let verbText = get(verbs, variable);
     country = country ? country : 'Africa';
     let countryButton = resetButton(country, this.reset.bind(this));
-    product =  product ? `of ${product} ${get(destination, variable)} China` : `${get(destination, variable)} China`;
-
+    let chinaCopy = `${get(destination, variable)} China`;
+    product = product ? productButton(product, this.resetProduct.bind(this)) : null;
    return (
      <div>
        <h1 className='question'>
-        In {year}, {countryButton} {verb(verbText, this.toggleVerb.bind(this))} {numbro(value).format('$ 0.00 a')} {product}
+        In {year}, {countryButton} {verb(verbText, this.toggleVerb.bind(this))} {numbro(value).format('$ 0.00 a')} {product} {chinaCopy}
        </h1>
        <ReactTooltip id='resetVariable' place="bottom" type="light">
          <span>Click here to see {get(verbsCopy,variable)} data</span>
