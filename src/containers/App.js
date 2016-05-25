@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { fetchData, fetchTimeSeries } from '../actions/data';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { StickyContainer, Sticky } from 'react-sticky';
 
 import Header from '../components/Header';
 
@@ -21,32 +20,33 @@ class App extends Component {
     let bottomVisualization = null;
     if(this.props.bottom) {
       bottomVisualization = (
-        <div className="Grid Grid--center Grid--visualizations__timeline">
+        <div className="Grid Grid--center Grid--visualizations__timeline visualization--width">
           {this.props.bottom}
         </div>
       );
     }
     return (
-      <StickyContainer>
+      <div>
         <header className="header">
-          <Sticky>
-            <div className='Grid Grid--center'>
-              <Header {...this.props}/>
-            </div>
-          </Sticky>
-        </header>
-        <div className="content">
-          <div className="Grid Grid--center Grid--visualizations">
-            <div className="Grid-cell Grid-cell--visualizations">
-              {this.props.left}
-            </div>
-            <div className="Grid-cell Grid-cell--visualizations">
-              {this.props.right}
-            </div>
+          <div className='Grid Grid--center'>
+          <h1>
+            Between 2010 - 2014, What was trade between China and Africa?
+          </h1>
           </div>
-          {bottomVisualization}
+        </header>
+        <div className="Grid Grid--center Grid--visualizations visualization--width">
+          <div className="Grid-cell Grid-cell--visualizations">
+            {this.props.left}
+          </div>
+          <div className="Grid-cell Grid-cell--visualizations">
+            {this.props.right}
+          </div>
         </div>
-      </StickyContainer>
+        <div className='Grid Grid--center'>
+          <Header {...this.props}/>
+        </div>
+        {bottomVisualization}
+      </div>
     );
   }
 }

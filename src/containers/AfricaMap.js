@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { hashHistory } from 'react-router'
 import { bindActionCreators } from 'redux';
 import { get, values } from 'lodash';
-import d3 from 'd3';
 import topojson from 'topojson';
 
 import { toggleMap } from '../actions/data';
@@ -62,9 +61,9 @@ class AfricaMap extends React.Component {
 
     return (
       <div className="Grid Grid-cell Grid-cell-center__all">
-        <svg className="Grid-cell" width={400} height={400}>
+        <svg className="Grid-cell" width={400} height={350}>
           {mapSvg}
-          <text transform='translate(20,380)' className='btn map-toggle' onClick={() => toggleMap() }> Toggle Map </text>
+          <text transform='translate(320,325)' className='btn map-toggle' onClick={() => toggleMap() }> Toggle Map </text>
         </svg>
         <Legend {...this.props}/>
       </div>

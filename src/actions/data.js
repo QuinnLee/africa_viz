@@ -64,7 +64,7 @@ export function fetchTimeSeries() {
   }
 }
 
-export function toggleMap(dataType, data) {
+export function toggleMap() {
   return {
     type: 'TOGGLE_MAP'
   }

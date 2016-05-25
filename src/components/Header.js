@@ -121,7 +121,7 @@ class Header extends Component {
          <span>Click here to see {get(verbsCopy,variable)} data</span>
        </ReactTooltip>
        <ReactTooltip id='resetCountry' place="bottom" type="light">
-         <span>Click here to see data for the continent</span>
+         <span>Click here to reset back to the continent</span>
        </ReactTooltip>
      </div>
     );

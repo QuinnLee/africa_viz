@@ -1,16 +1,9 @@
 import React from 'react';
 import numbro from 'numbro';
 import d3 from 'd3';
-import {
-  chain,
-  map
-} from 'lodash';
+import { map } from 'lodash';
 
 export const d3treemap = (tree, country, product, action, onHover) => {
-  let maxArea = chain(tree)
-    .first()
-    .get('area')
-    .value();
 
   return tree.map((node, i) => {
     let t =`translate(${node.x},${node.y})`;
@@ -20,8 +13,8 @@ export const d3treemap = (tree, country, product, action, onHover) => {
       maxHeight: `${node.dy}px`,
       padding: 5,
       margin: 0,
-      fontSize: 20,
-      overflow: 'hidden',
+      fontSize: 19,
+      overflow: 'hidden'
     };
 
     let fill = null;
@@ -50,14 +43,14 @@ export const d3treemap = (tree, country, product, action, onHover) => {
 }
 
 export const africa = (data, country, product, year, onClick, onHover) => {
-  let side = 35;
+  let side = 31;
   let className = country ? 'map-country__deselected' : 'map-country';
   return data.map((d) => {
     let countryClass = d.name === country ? 'map-country__selected ' : className;
     return (
       <g key={`${d.name}-${year}`} transform={`translate(${d.x*side},${d.y*side})`} onClick={() => { onClick(d.name);}}>
-        <rect width={side-2} height={side-2} y="1" x="1" className={countryClass} fill={d.color} onMouseOver= {()=> { onHover(d.name)}} vector-effect="non-scaling-stroke"/>
-        <text x="18" y="22" className="map-country-text">{d['3digit']}</text>
+        <rect width={side-1} height={side-1} y="1" x="1" className={countryClass} fill={d.color} onMouseOver= {()=> { onHover(d.name)}} vector-effect="non-scaling-stroke"/>
+        <text x="3" y="20" className="map-country-text">{d['3digit']}</text>
       </g>
     );
   });
@@ -80,7 +73,7 @@ export const colorLegend = (scale) => {
 }
 
 export const topoMap = (topoJson, country, year, onClick) => {
-  var projection = d3.geo.mercator().scale(280).center([80,-10]);
+  var projection = d3.geo.mercator().scale(250).center([90,-15]);
   let className = country ? 'topo-map__deselected' : 'topo-map';
   return topoJson.map((d,i) => {
     let name = d.properties.name;

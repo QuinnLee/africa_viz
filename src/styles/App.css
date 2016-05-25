@@ -1,14 +1,15 @@
 /* Base Application Styles */
-.content {
-  max-width: 75em;
-  margin: 0 auto;
-}
 .Grid {
   display: flex;
 }
 
 .Grid-cell {
   flex: 1;
+}
+
+.visualization--width {
+  width: 75em;
+  margin: 0 auto;
 }
 
 /* With gutters */
@@ -51,7 +52,7 @@
 }
 
 .Grid-cell--visualizations {
-  height: 400px;
+  height: 350px;
 }
 
 .Grid--visualizations__timeline {
@@ -67,7 +68,7 @@
 }
 
 .header {
-  margin: 1em 0;
+  margin: 0.25em 0;
 }
 
 .index img {
@@ -94,13 +95,14 @@
 
 .treemap--rect {
   cursor: pointer;
-  fill: rgb(170, 170, 170);
+  fill: #41b6c4;
+  stroke-width: 1px;
   stroke: #fff;
 }
 
 .legend {
   flex-direction: column-reverse;
-  max-height: 400px;
+  max-height: 350px;
 }
 
 p.key-text {
@@ -137,28 +139,10 @@ ul {
   width: 450px;
 }
 
-.example-enter {
-  opacity: 0.01;
-  transition: opacity .5s ease-in;
-}
-
-.example-enter.example-enter-active {
-  opacity: 1;
-}
-
-.example-leave {
-  opacity: 1;
-  transition: opacity .5s ease-in;
-}
-
-.example-leave.example-leave-active {
-  opacity: 0;
-}
-
 .time-line {
   stroke: steelblue;
-  stroke-width: 1;
-  opacity: 0.5;
+  stroke-width: 2;
+  opacity: 1;
   fill: none;
 }
 
@@ -232,8 +216,7 @@ foreignobject {
 }
 
 .map-country-text {
-  font-size: 1em;
+  font-size: 0.9em;
   cursor: pointer;
-  text-anchor: middle;
 }
 

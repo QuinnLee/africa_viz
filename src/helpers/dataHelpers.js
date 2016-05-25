@@ -36,7 +36,7 @@ export const colorScale = (data = []) => {
 
   return d3.scale.linear()
     .domain([0, median, max])
-    .range(['#deebf7', '#6baed6', '#08519c']);
+    .range(['#6baed6', '#2171b5', '#08519c']);
 }
 
 export const tradeValue = (data, variable) => {
@@ -68,7 +68,7 @@ export const createTreeData = (filteredData) => {
 export const createTreeMap = (variable, treeData) => {
   return  d3.layout.treemap()
     .children((d) => d)
-    .size([375, 400])
+    .size([375, 350])
     .sticky(true)
     .sort((a,b) => {
       return get(a, `values.${variable}`) - get(b, `values.${variable}`);

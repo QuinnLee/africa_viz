@@ -53,7 +53,7 @@ class TreeMap extends React.Component {
     if(hasData) {
       return (
         <div>
-          <svg data-tip data-for='onProduct' className="treemap" width={375} height={400}>
+          <svg data-tip data-for='onProduct' className="treemap" width={375} height={350}>
             {d3treemap(data, country, product,  this.onClick.bind(this), this.onHover.bind(this))}
           </svg>
           {tooltip}

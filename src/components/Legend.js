@@ -26,7 +26,6 @@ class Legend extends React.Component {
 function mapStateToProps(state, props){
   let {
     product,
-    country,
     variable,
     year
   } = props.location.query;

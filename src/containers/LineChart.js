@@ -84,16 +84,18 @@ let yAxis = (scale) => {
   );
 }
 
-let yearValue = (data, xScale, yScale) => {
+let yearValue = (data, xScale, yScale, variable) => {
   return map(data, (d, i) => {
     let x = xScale(new Date(d.year, 0));
-    let y = yScale(d.value);
+    let y = yScale(get(d, `value.${variable}`));
     let xText = i === 0 ? x + 50 : x;
     return (
       <g key={`${d.year}-circle`}>
         <circle className='dot' r='3.5' cy={y} cx={x} style={{fill: 'black'}}/>
         <text dy='-1em' dx='-2em' x={xText} y={y} style={{textAnchor: 'middle'}}>
-          {numbro(d.value).format('$ 0.0 a')}
+         <tspan dy='-1em' dx='-2em' x={xText} y={y} >
+          {numbro(get(d, `value.${variable}`)).format('$ 0.0 a')}
+         </tspan>
         </text>
       </g>
     );
@@ -128,6 +130,7 @@ class LineChart extends React.Component {
     var {
       data,
       hasData,
+      variable,
       year
     } = this.props;
 
@@ -138,7 +141,7 @@ class LineChart extends React.Component {
     let topMargin = 30;
     let bottomMargin = 50;
 
-    let [yMin, yMax] = d3.extent(data, (d) => d.value);
+    let [yMin, yMax] = d3.extent(data, (d) => get(d, `value.${variable}`));
 
     let xScale = d3.time.scale()
       .range([0, width - leftMargin - rightMargin])
@@ -153,11 +156,11 @@ class LineChart extends React.Component {
     var line = d3.svg.line()
       .interpolate('monotone')
       .x((d) => { return xScale(new Date(d.year, 0)); })
-      .y((d) => { return yScale(d.value); });
+      .y((d) => { return yScale(get(d, `value.${variable}`)); });
 
     let className = 'time-line';
     let lines = ( <path className={className} d={line(data)}/>);
-    let circles = yearValue(data, xScale, yScale);
+    let circles = yearValue(data, xScale, yScale, variable);
     if(!hasData) { return (<h1> Loading </h1>)}
     return (
       <svg width={width} height={height}>
@@ -193,18 +196,16 @@ function mapStateToProps(state, props){
 
   data = d3.nest()
     .key((d) => get(d, 'year'))
-    .rollup((leaves) =>  sumBy(leaves, variable))
+    .rollup((leaves) => {
+      return {
+        'import_value': sumBy(leaves, 'import_value'),
+        'export_value': sumBy(leaves, 'export_value')
+      }
+    })
     .map(data);
 
-  data = map(data, (datum, year, memo) => {
-    let previousYear = parseInt(year) - 1;
-    let currentValue = get(memo, year, 0);
-    let previousValue = get(memo, previousYear, 0);
-
-    let change = ((currentValue - previousValue) / previousValue );
-    change = isFinite(change) ? change : 0;
-
-    return { year, value: datum, label: change };
+  data = map(data, (datum, year) => {
+    return { year, value: datum };
   });
 
   return {
