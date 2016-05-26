@@ -46,6 +46,16 @@ class App extends Component {
           <Header {...this.props}/>
         </div>
         {bottomVisualization}
+        <div className="Grid Grid--center">
+          <p>
+            Data from the <a href='http://atlas.cid.harvard.edu/' target='_blank'> Atlas of International Complexity </a>
+          </p>
+        </div>
+        <div className="Grid Grid--center">
+          <p>
+            <a href='https://github.com/QuinnLee/africa_viz'> Github </a>
+          </p>
+        </div>
       </div>
     );
   }
