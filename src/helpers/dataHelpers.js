@@ -32,11 +32,10 @@ export const dataFilter = (country, product, year, data=[]) => {
 
 export const colorScale = (data = []) => {
   let max = d3.max(data);
-  let median = d3.median(data)
 
   return d3.scale.linear()
-    .domain([0, median, max])
-    .range(['#6baed6', '#2171b5', '#08519c']);
+    .domain([0, max])
+    .range(['#6baed6', '#08519c']);
 }
 
 export const tradeValue = (data, variable) => {
