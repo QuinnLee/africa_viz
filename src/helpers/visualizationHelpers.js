@@ -32,7 +32,7 @@ export const d3treemap = (tree, country, product, action, onHover) => {
     }
 
     return(
-      <g key={`${node.key}-${i}`} transform={t} onClick={() => { action(node.key);}} onMouseOver={() => onHover(node.key)}>
+      <g key={node.key} transform={t} onClick={() => { action(node.key);}} onMouseOver={() => onHover(node.key)}>
         <rect className="treemap--rect" style={rectStyle} width={node.dx} height={node.dy} vector-effect="non-scaling-stroke"/>
         <foreignObject width={node.dx} height={node.dy}>
          <p style={pStyle}> {node.key} </p>
